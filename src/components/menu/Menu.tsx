@@ -1,24 +1,17 @@
-import * as React from "react";
-
-export interface MenuItem {
-    disabled: boolean;
-    icon: string;
-    isFolder: boolean;
-    key: string;
-    title: string;
-}
-
-export interface MenuProps { 
-    defaultExpandAll?: boolean;
-    defaultExpandedKeys?: string[];
-    defaultSelectedKeys?: string[];
-    items: MenuItem[];
-    onSelect?: (selectedKeys: string[]) => void;
-}
+import * as React from 'react';
+import { MenuProps } from './Menu-model';
+import { MenuItem } from './MenuItem';
 
 export default class Menu extends React.Component<MenuProps, any> {
 
     render() {
-        return (<div>Test</div>)
+        return (
+        <div className="menu">
+            <div className="menu-items">
+                {this.props.items.map(i => {
+                    <MenuItem title={i.title} key={i.key}/>
+                })}
+            </div>
+        </div>)
     }    
 }
