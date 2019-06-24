@@ -4,6 +4,6 @@ import * as ReactDOM from "react-dom";
 import Menu from "./components/menu/Menu";
 
 ReactDOM.render(
-    <Menu items={[]}/>,
+    <Menu items={[{ title: 'Boards', key: '1' }]} />,
     document.getElementById("menu")
 );

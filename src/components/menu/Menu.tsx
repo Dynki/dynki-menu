@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { MenuProps } from './Menu-model';
-import { MenuItem } from './MenuItem';
+import MenuItemWrapper from './MenuItem';
 
 export default class Menu extends React.Component<MenuProps, any> {
 
     render() {
+        console.log(this.props.items)
+
         return (
         <div className="menu">
-            <div className="menu-items">
-                {this.props.items.map(i => {
-                    <MenuItem title={i.title} key={i.key}/>
-                })}
-            </div>
+            <ul className="menu-items">
+                {this.props.items.map(i => (
+                    <MenuItemWrapper title={i.title} key={i.key}/>
+                ))}
+            </ul>
         </div>)
     }    
 }

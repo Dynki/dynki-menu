@@ -4,12 +4,13 @@ export interface MenuItemProps {
     isFolder?: boolean;
     key: string;
     title: string;
+    items?: Array<MenuItemProps>;
 }
 
 export interface MenuProps { 
     defaultExpandAll?: boolean;
-    defaultExpandedKeys?: string[];
-    defaultSelectedKeys?: string[];
-    items: MenuItemProps[];
+    defaultExpandedKeys?: Array<string>;
+    defaultSelectedKeys?: Array<string>;
+    items: Array<MenuItemProps>;
     onSelect?: (selectedKeys: string[]) => void;
 }
