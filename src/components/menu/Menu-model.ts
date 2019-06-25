@@ -1,5 +1,6 @@
 export interface MenuItemProps {
     disabled?: boolean;
+    editable?: boolean;
     icon?: string;
     isFolder?: boolean;
     key: string;
