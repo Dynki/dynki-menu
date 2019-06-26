@@ -12,7 +12,7 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
 
     static defaultProps: MenuItemProps = {
         title: '',
-        key: '',
+        id: '',
         disabled: false,
         editable: false,
         icon: undefined,
@@ -35,7 +35,7 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
 
     componentWillReceiveProps(props: MenuItemProps) {
         this.title = props.title;
-        this.key = props.key;
+        this.key = props.id;
         this.disabled = props.disabled;
         this.isFolder = props.isFolder;
         this.icon = props.icon;
@@ -46,13 +46,17 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
         return this.state.selected ? <Icon type='folder-open'/> : <Icon type='folder'/>
     }
 
+    renderIcon() {
+        return this.props.icon ? <Icon type={this.props.icon}/> : null;
+    }
+
     render() {
-        const {editable, isFolder, key, title, icon} = this.props;
+        const {editable, isFolder, id, title} = this.props;
 
         return (
         <li 
             className="menu__item"
-            key={key}
+            key={id}
             onMouseEnter={() => this.setHovering(true)}
             onMouseLeave={() => this.setHovering(false)}
         >
@@ -60,13 +64,13 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
                 {editable && this.state.hovering ? <Icon type="edit"/> : null}
             </div>
             <div
-                onClick={this.setSelected}
                 className="menu__item__content"
+                onClick={this.setSelected}
             >
-                {isFolder ? this.renderFolderIcon() : <Icon type={icon}/>}
+                {isFolder ? this.renderFolderIcon() : this.renderIcon()}
                 <div className="item__title">{title}</div>
-                {this.props.children}
             </div>
+            {this.props.children}
         </li>)
     }
 }
@@ -75,18 +79,56 @@ export const MenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
     return <BaseMenuItem {...props}/>
 }
 
-export const SubMenuItemWrapper: React.FunctionComponent<MenuItemProps> = (props) => {
+export const SubMenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
     return (
-    <ul className="menu__sub-list">
-        {props.items ? props.items.map(i => (
-            <BaseMenuItem {...i} editable={true}/>
+    <ul className="menu__subitem">
+        {props.items ? props.items.map((i, idx) => (
+            <BaseMenuItem key={idx} {...i}>
+                {i.isFolder && i.items && i.items.length > 0 ? <FolderMenuItem {...i}/> : <LeafMenuItem {...i} editable={true}/>}
+            </BaseMenuItem>
         )) : null}
     </ul>)
 }
 
+export const FolderMenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
+    return (
+    <ul className="menu__folder">
+        {props.items ? props.items.map((i, idx) => (
+            <BaseMenuItem key={idx} {...i} editable={true}/>
+        )) : null}
+    </ul>)
+}
+
+export const LeafMenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
+    const {editable, id, title, icon} = props;
+
+    const [hovering, setHovering] = React.useState(false);
+    const [selected, setSelected] = React.useState(false);
+
+    return (
+    <div
+        className="menu__item__leaf"
+        key={id}
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+    >
+        <div className="menu__item__edit-icon">
+            {editable && hovering ? <Icon type="edit"/> : null}
+        </div>
+        <div
+            className="menu__item__content"
+            onClick={() => setSelected(!selected)}
+        >
+            {icon ? <Icon type={icon}/> : null}
+            <div className="item__title">{title}</div>
+        </div>
+    </div>)
+}
+
+
 export const MenuItemFactory = (props:MenuItemProps) => {
     return (
     <MenuItem {...props}>
-        {props.items ? <SubMenuItemWrapper {...props}/> : null}
+        {props.items ? <SubMenuItem {...props}/> : null}
     </MenuItem>)
 }

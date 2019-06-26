@@ -6,6 +6,17 @@ module.exports = ({ config, mode }) => {
         presets: [['react-app', { flow: false, typescript: true }]],
       },
     });
-    config.resolve.extensions.push('.ts', '.tsx');
+
+    config.module.rules.push({
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+      });
+
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+      });
+      
+    config.resolve.extensions.push('.ts', '.tsx', '.css', '.scss');
     return config;
   };

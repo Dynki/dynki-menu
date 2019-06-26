@@ -10,8 +10,8 @@ export default class Menu extends React.Component<MenuProps, any> {
         return (
         <div className="menu">
             <ul className="menu-items">
-                {this.props.items.map(i => (
-                    <MenuItemWrapper {...i}/>
+                {this.props.items.map((i, idx) => (
+                    <MenuItemWrapper key={idx} {...i}/>
                 ))}
             </ul>
         </div>)

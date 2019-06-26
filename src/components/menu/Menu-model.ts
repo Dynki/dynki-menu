@@ -3,7 +3,7 @@ export interface MenuItemProps {
     editable?: boolean;
     icon?: string;
     isFolder?: boolean;
-    key: string;
+    id: string;
     title: string;
     items?: Array<MenuItemProps>;
 }
