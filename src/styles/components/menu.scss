@@ -1,12 +1,59 @@
 .menu {
-    .menu-items {
+    max-width: 300px;
+
+
+    .menu-items, &__subitem, &__folder  {
         list-style: none;
+        font-family: 'Segoe UI';
+        font-weight: 100;
+        position: relative;
+
+    }
+
+    &__folder {
+        overflow: hidden;
     }
 
     &__item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: start;
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+        }
+
+        &__title {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+            overflow: hidden
+        }
+
+        &__icon {
+            i {
+                font-size: 20px;
+                color: #333333;
+                margin-right: 10px;
+            }
+
+            &-edit {
+                position: absolute;
+                right: 0px;
+
+                i {
+                    font-size: 20px;
+                    color: #333333;
+                }
+            }
+        }
+
     }
 }

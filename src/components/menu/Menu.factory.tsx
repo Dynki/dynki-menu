@@ -54,21 +54,24 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
         const {editable, isFolder, id, title} = this.props;
 
         return (
-        <li 
-            className="menu__item"
-            key={id}
-            onMouseEnter={() => this.setHovering(true)}
-            onMouseLeave={() => this.setHovering(false)}
-        >
-            <div className="menu__item__edit-icon">
-                {editable && this.state.hovering ? <Icon type="edit"/> : null}
-            </div>
-            <div
-                className="menu__item__content"
-                onClick={this.setSelected}
+        <li className="menu__item" key={id}>
+            <div 
+                className="content"
+                onMouseEnter={() => this.setHovering(true)}
+                onMouseLeave={() => this.setHovering(false)}
             >
-                {isFolder ? this.renderFolderIcon() : this.renderIcon()}
-                <div className="item__title">{title}</div>
+                <div
+                    className="menu__item__content"
+                    onClick={this.setSelected}
+                >
+                    <div className="menu__item__icon">
+                        {isFolder ? this.renderFolderIcon() : this.renderIcon()}
+                    </div>
+                    <div className="menu__item__title">{title}</div>
+                </div>
+                <div className="menu__item__icon-edit">
+                    {editable && this.state.hovering ? <Icon type="edit"/> : null}
+                </div>
             </div>
             {this.props.children}
         </li>)
@@ -82,11 +85,18 @@ export const MenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
 export const SubMenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
     return (
     <ul className="menu__subitem">
-        {props.items ? props.items.map((i, idx) => (
-            <BaseMenuItem key={idx} {...i}>
-                {i.isFolder && i.items && i.items.length > 0 ? <FolderMenuItem {...i}/> : <LeafMenuItem {...i} editable={true}/>}
-            </BaseMenuItem>
-        )) : null}
+        {props.items ? props.items.map((i, idx) => {
+            return <React.Fragment>
+                {i.items ? 
+                    <BaseMenuItem key={idx} {...i}>
+                        {i.isFolder && i.items && i.items.length > 0 ? <FolderMenuItem {...i}/> : <BaseMenuItem {...i} editable={true}/>}
+                    </BaseMenuItem>
+                    :
+                    <BaseMenuItem key={idx} {...i} editable={true}/>
+                }
+            </React.Fragment>
+            
+        }) : null}
     </ul>)
 }
 
@@ -98,33 +108,6 @@ export const FolderMenuItem: React.FunctionComponent<MenuItemProps> = (props) =>
         )) : null}
     </ul>)
 }
-
-export const LeafMenuItem: React.FunctionComponent<MenuItemProps> = (props) => {
-    const {editable, id, title, icon} = props;
-
-    const [hovering, setHovering] = React.useState(false);
-    const [selected, setSelected] = React.useState(false);
-
-    return (
-    <div
-        className="menu__item__leaf"
-        key={id}
-        onMouseEnter={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
-    >
-        <div className="menu__item__edit-icon">
-            {editable && hovering ? <Icon type="edit"/> : null}
-        </div>
-        <div
-            className="menu__item__content"
-            onClick={() => setSelected(!selected)}
-        >
-            {icon ? <Icon type={icon}/> : null}
-            <div className="item__title">{title}</div>
-        </div>
-    </div>)
-}
-
 
 export const MenuItemFactory = (props:MenuItemProps) => {
     return (
