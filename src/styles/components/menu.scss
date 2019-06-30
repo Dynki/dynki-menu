@@ -1,20 +1,39 @@
 .menu {
     max-width: 300px;
+    margin: 0;
+    padding: 0;
 
 
     .menu-items, &__subitem, &__folder  {
-        list-style: none;
         font-family: 'Segoe UI';
         font-weight: 100;
         position: relative;
 
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
     &__folder {
         overflow: hidden;
     }
 
+    &__subitem {
+        .menu__item {
+            padding-left: 20px;
+        }
+    }
+
     &__item {
+
+        &--selected {
+            display: block;
+            background-color:  blue;
+            width: 13.4em;
+            margin-left: -2.6em;
+            padding-left: 2.6em;
+        
+        }
 
         .content {
             display: flex;

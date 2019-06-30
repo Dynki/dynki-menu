@@ -54,7 +54,7 @@ export class BaseMenuItem extends React.Component<MenuItemProps, any> {
         const {editable, isFolder, id, title} = this.props;
 
         return (
-        <li className="menu__item" key={id}>
+        <li className={"menu__item" + (this.state.selected ? "--selected" : "")} key={id}>
             <div 
                 className="content"
                 onMouseEnter={() => this.setHovering(true)}
